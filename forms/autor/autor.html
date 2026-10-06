@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./../../logo-livraria.png" type="image/png" />
+    <link rel="stylesheet" href="./../../style.css" />
+    <title>Cadastro Autor</title>
+  </head>
+  <body>
+    <header class="cabecalho">
+      <h1>Cadastro Autor</h1>
+      <img src="./../../logo-livraria.png" alt="Logo da livraria" />
+    </header>
+
+    <nav class="navegacao">
+      <a href="./../../index.html">Voltar para página inicial</a>
+    </nav>
+
+    <main class="conteudo">
+      <section class="secao-formulario">
+        <h2 class="titulo-formulario">Dados do Autor</h2>
+
+        <form class="formulario" id="form-autor">
+          <label for="nome"><em>Nome Completo:</em></label>
+          <input type="text" name="nome" id="nome" />
+
+          <label for="nacionalidade"><em>Nacionalidade:</em></label>
+          <input type="text" name="nacionalidade" id="nacionalidade" />
+
+          <label for="dataNasc"><em>Data de Nascimento:</em></label>
+          <input type="date" name="dataNasc" id="dataNasc" />
+
+          <label for="bibliografia"><em>Resumo das Obras:</em></label>
+          <textarea name="bibliografia" id="bibliografia" rows="3"></textarea>
+
+          <label for="genero"><em>Gênero Literário Principal:</em></label>
+          <input type="text" name="genero" id="genero" />
+
+          <input type="submit" value="Cadastrar" class="botao-enviar" />
+        </form>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p><strong>© 2026 - Projeto Livraria</strong></p>
+    </footer>
+
+    <script src="./autor.js"></script>
+  </body>
+</html>

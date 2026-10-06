@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./../../logo-livraria.png" type="image/png" />
+    <link rel="stylesheet" href="./../../style.css" />
+    <title>Cadastro Cliente</title>
+  </head>
+  <body>
+    <header class="cabecalho">
+      <h1>Cadastro Cliente</h1>
+      <img src="./../../logo-livraria.png" alt="Logo da livraria" />
+    </header>
+
+    <nav class="navegacao">
+      <a href="./../../index.html">Voltar para página inicial</a>
+    </nav>
+
+    <main class="conteudo">
+      <section class="secao-formulario">
+        <h2 class="titulo-formulario">Dados do Cliente</h2>
+
+        <form class="formulario" id="form-cliente">
+          <label for="nome"><em>Nome Completo:</em></label>
+          <input
+            type="text"
+            name="nome"
+            id="nome"
+            placeholder="Nome e Sobrenome"
+          />
+
+          <label for="dataNasc"><em>Data de Nascimento:</em></label>
+          <input type="date" name="dataNasc" id="dataNasc" />
+
+          <label for="cpf"><em>CPF:</em></label>
+          <input
+            type="text"
+            name="cpf"
+            id="cpf"
+            placeholder="000.000.000-00"
+            maxlength="14"
+          />
+
+          <label for="email"><em>E-mail:</em></label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="exemplo@email.com"
+          />
+
+          <label for="telefone"><em>Telefone:</em></label>
+          <input
+            type="tel"
+            name="telefone"
+            id="telefone"
+            placeholder="987458855"
+            maxlength="9"
+          />
+
+          <label for="endereco"><em>Endereço:</em></label>
+          <input
+            type="text"
+            name="endereco"
+            id="endereco"
+            placeholder="Rua, Número, Bairro"
+            maxlength="100"
+          />
+
+          <input type="submit" value="Cadastrar" class="botao-enviar" />
+        </form>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p><strong>© 2026 - Projeto Livraria</strong></p>
+    </footer>
+
+    <script src="./cliente.js"></script>
+  </body>
+</html>
