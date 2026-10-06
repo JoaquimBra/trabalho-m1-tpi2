@@ -3,6 +3,8 @@
 header("Content-Type: application/json; charset=UTF-8");
 
 $dados = [
+    "tituloLivro" => trim($_POST["tituloLivro"] ?? ""),
+    "isbn" => trim($_POST["isbn"] ?? ""),
     "quantidadeAtual" => trim($_POST["quantidadeAtual"] ?? ""),
     "quantidadeMinima" => trim($_POST["quantidadeMinima"] ?? ""),
     "localizacao" => trim($_POST["localizacao"] ?? ""),
@@ -54,6 +56,15 @@ if (!is_numeric((float)$dados["custoUnitario"])) {
 if ((float)$dados["custoUnitario"] < 0) {
     $status = "Erro";
     $msg = "O custo unitário não pode ser negativo.";
+}
+
+$isbnNumeros = preg_replace('/\D/', '', $livro["isbn"]);
+if (strlen($isbnNumeros) != 10 && strlen($isbnNumeros) != 13) {
+    $status = "Erro";
+    $msg = "O ISBN deve conter 10 ou 13 números.";
+}
+else {
+    $livro["isbn"] = $isbnNumeros;
 }
 
 echo json_encode([
