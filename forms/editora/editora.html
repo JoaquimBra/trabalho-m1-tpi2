@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Editora</title>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Editora</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-formulario">
+      <h2 class="titulo-formulario">Dados da Editora</h2>
+
+      <form class="formulario" id="form-editora" method="POST">
+
+        <label for="nomeEditora"><em>Nome da Editora:</em></label>
+        <input type="text" name="nomeEditora" id="nomeEditora">
+
+        <label for="cnpj"><em>CNPJ:</em></label>
+        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+
+        <label for="enderecoComercial"><em>Endereço Comercial:</em></label>
+        <input type="text" name="enderecoComercial" id="enderecoComercial">
+
+        <label for="telefoneContato"><em>Telefone de Contato:</em></label>
+        <input type="text" name="telefoneContato" id="telefoneContato">
+
+        <label for="valorMinimoPedido"><em>Valor Mínimo de Pedido (R$):</em></label>
+        <input type="number" name="valorMinimoPedido" id="valorMinimoPedido" min="0" step="0.01" placeholder="0.00">
+
+        <input type="submit" value="Cadastrar" class="botao-enviar">
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+  <script src="./editora.js"></script>
+  <script src="./../../scripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Estoque</title>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Estoque</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-formulario">
+      <h2 class="titulo-formulario">Dados do Estoque</h2>
+
+      <form class="formulario" id="form-estoque" method="POST">
+
+        <label for="quantidadeAtual"><em>Quantidade Atual:</em></label>
+        <input type="number" name="quantidadeAtual" id="quantidadeAtual" min="0">
+
+        <label for="quantidadeMinima"><em>Quantidade Mínima (Alerta de Reposição):</em></label>
+        <input type="number" name="quantidadeMinima" id="quantidadeMinima" min="0">
+
+        <label for="localizacao"><em>Localização (Corredor, Estante, Prateleira):</em></label>
+        <input type="text" name="localizacao" id="localizacao">
+
+        <label for="dataReposicao"><em>Data da Última Reposição:</em></label>
+        <input type="date" name="dataReposicao" id="dataReposicao">
+
+        <label for="custoUnitario"><em>Custo Unitário de Aquisição (R$):</em></label>
+        <input type="number" name="custoUnitario" id="custoUnitario" min="0" step="0.01" placeholder="0.00">
+
+        <input type="submit" value="Cadastrar" class="botao-enviar">
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+  <script src="./estoque.js"></script>
+  <script src="./../../scripts/script.js"></script>
+</body>
+</html>
