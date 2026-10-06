@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Fornecedor</title>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Fornecedor</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-formulario">
+      <h2 class="titulo-formulario">Dados do Fornecedor</h2>
+
+      <form class="formulario" id="form-fornecedor">
+
+        <label for="nomeEmpresa"><em>Nome da Empresa:</em></label>
+        <input type="text" name="nomeEmpresa" id="nomeEmpresa">
+
+        <label for="emailPedidos"><em>E-mail para Pedidos:</em></label>
+        <input type="text" name="emailPedidos" id="emailPedidos">
+
+        <label for="prazoEntrega"><em>Prazo Médio de Entrega:</em></label>
+        <input type="text" name="prazoEntrega" id="prazoEntrega" placeholder="Ex: 5 dias úteis">
+
+        <label for="condicaoPagamento"><em>Condição de Pagamento:</em></label>
+        <input type="text" name="condicaoPagamento" id="condicaoPagamento" placeholder="Ex: 30/60 dias">
+
+        <label for="valorPedido"><em>Valor Mínimo de Pedido (R$):</em></label>
+        <input type="number" name="valorPedido" id="valorPedido" min="0" step="0.01" placeholder="0.00">
+
+        <input type="submit" value="Cadastrar" class="botao-enviar">
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+
+  <script src="./fornecedor.js"></script>
+  <script src="./../../scripts/script.js"></script>
+</body>
+</html>

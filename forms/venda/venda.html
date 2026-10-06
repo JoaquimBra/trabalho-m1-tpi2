@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Venda</title>
+</head>
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Venda</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-formulario">
+      <h2 class="titulo-formulario">Dados da Venda</h2>
+
+      <form class="formulario" id="form-venda">
+
+        <label for="dataVenda"><em>Data da Venda:</em></label>
+        <input type="date" name="dataVenda" id="dataVenda">
+
+        <label for="horaVenda"><em>Hora da Venda:</em></label>
+        <input type="time" name="horaVenda" id="horaVenda">
+
+        <label for="formaPagamento"><em>Forma de Pagamento:</em></label>
+        <select name="formaPagamento" id="formaPagamento">
+          <option value="">Selecione</option>
+          <option value="pix">Pix</option>
+          <option value="cartao">Cartão</option>
+          <option value="dinheiro">Dinheiro</option>
+        </select>
+
+        <label for="descontoAplicado"><em>Desconto Aplicado (%):</em></label>
+        <input type="number" name="descontoAplicado" id="descontoAplicado" min="0" max="100" placeholder="0">
+
+        <label for="cupomFiscal"><em>Número do Cupom Fiscal:</em></label>
+        <input type="text" name="cupomFiscal" id="cupomFiscal">
+
+        <label><em>Itens da Venda:</em></label>
+        <div id="itensVendaContainer"></div>
+        <button type="button" id="btnAdicionarItem" class="botao-enviar" style="margin-top:0; background-color:#C9922A; border-color:#C9922A;">
+          + Adicionar Item
+        </button>
+
+        <input type="submit" value="Cadastrar Venda" class="botao-enviar">
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+
+  <script src="./venda.js"></script>
+  <script src="./../../scripts/script.js"></script>
+</body>
+</html>
