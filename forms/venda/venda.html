@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="./../../style.css">
   <title>Cadastro Venda</title>
 </head>
+
 <body>
 
   <header class="cabecalho">
@@ -19,40 +21,89 @@
   </nav>
 
   <main class="conteudo">
-    <section class="secao-formulario">
-      <h2 class="titulo-formulario">Dados da Venda</h2>
-
-      <form class="formulario" id="form-venda">
-
-        <label for="dataVenda"><em>Data da Venda:</em></label>
-        <input type="date" name="dataVenda" id="dataVenda">
-
-        <label for="horaVenda"><em>Hora da Venda:</em></label>
-        <input type="time" name="horaVenda" id="horaVenda">
-
-        <label for="formaPagamento"><em>Forma de Pagamento:</em></label>
-        <select name="formaPagamento" id="formaPagamento">
-          <option value="">Selecione</option>
-          <option value="pix">Pix</option>
-          <option value="cartao">Cartão</option>
-          <option value="dinheiro">Dinheiro</option>
-        </select>
-
-        <label for="descontoAplicado"><em>Desconto Aplicado (%):</em></label>
-        <input type="number" name="descontoAplicado" id="descontoAplicado" min="0" max="100" placeholder="0">
-
-        <label for="cupomFiscal"><em>Número do Cupom Fiscal:</em></label>
-        <input type="text" name="cupomFiscal" id="cupomFiscal">
-
-        <label><em>Itens da Venda:</em></label>
-        <div id="itensVendaContainer"></div>
-        <button type="button" id="btnAdicionarItem" class="botao-enviar" style="margin-top:0; background-color:#C9922A; border-color:#C9922A;">
-          + Adicionar Item
-        </button>
-
-        <input type="submit" value="Cadastrar Venda" class="botao-enviar">
-      </form>
+    <section class="secao-conteudo-main">
+      <button type="button" class="botao-abrir-modal" data-abrir="modal">
+        Cadastrar Venda
+      </button>
+      <button type="button" class="botao-abrir-modal" id="btn-pesquisar" data-abrir="modal-lista">
+        Ver Vendas
+      </button>
     </section>
+
+    <dialog class="modal" id="modal" aria-labelledby="titulo-modal">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario" id="titulo-modal">Dados da Venda</h2>
+        <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
+      </div>
+      <section class="secao-formulario">
+        <h2 class="titulo-formulario">Dados da Venda</h2>
+
+        <form class="formulario" id="cadastro" method="POST">
+
+          <label for="dataVenda"><em>Data da Venda:</em></label>
+          <input type="date" name="dataVenda" id="dataVenda">
+
+          <label for="formaPagamento"><em>Forma de Pagamento:</em></label>
+          <select name="formaPagamento" id="formaPagamento">
+            <option value="">Selecione</option>
+            <option value="pix">Pix</option>
+            <option value="cartao">Cartão</option>
+            <option value="dinheiro">Dinheiro</option>
+          </select>
+
+          <label for="descontoAplicado"><em>Desconto Aplicado (%):</em></label>
+          <input type="number" name="descontoAplicado" id="descontoAplicado" min="0" max="100" placeholder="0">
+
+          <label for="cupomFiscal"><em>Número do Cupom Fiscal:</em></label>
+          <input type="text" name="cupomFiscal" id="cupomFiscal">
+
+          <label><em>Itens da Venda:</em></label>
+          <div id="itensVendaContainer"></div>
+          <button type="button" id="btnAdicionarItem" class="botao-enviar"
+            style="margin-top:0; background-color:#C9922A; border-color:#C9922A;">
+            + Adicionar Item
+          </button>
+
+          <input type="submit" value="Cadastrar Venda" class="botao-enviar">
+        </form>
+      </section>
+
+    </dialog>
+
+    <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Vendas Cadastradas</h2>
+        <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="form-table" id="tabela">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Data Venda</th>
+              <th>Forma Pagamento</th>
+              <th>Desconto (%)</th>
+              <th>Cupom Fiscal</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <!-- Exemplo de linha (pode apagar):
+            <tr>
+              <td>1</td>
+              <td>2023-10-01</td>
+              <td>14:30</td>
+              <td>Pix</td>
+              <td>10%</td>
+              <td>Item 1, Item 2</td>                
+        -->
+          </tbody>
+        </table>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhum Venda cadastrado.</p>
+      </div>
+    </dialog>
   </main>
 
   <footer class="rodape">
@@ -60,6 +111,6 @@
   </footer>
 
   <script src="./venda.js"></script>
-  <script src="./../../scripts/script.js"></script>
 </body>
+
 </html>
