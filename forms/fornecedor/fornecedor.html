@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Fornecedor</title>
+</head>
+
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Fornecedor</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-conteudo-main">
+      <button type="button" class="botao-abrir-modal" data-abrir="modal">
+        Cadastrar Fornecedor
+      </button>
+      <button type="button" class="botao-abrir-modal" id="btn-pesquisar" data-abrir="modal-lista">
+        Ver Fornecedores
+      </button>
+    </section>
+
+    <dialog class="modal" id="modal" aria-labelledby="titulo-modal">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario" id="titulo-modal">Dados do Fornecedor</h2>
+        <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
+      </div>
+
+      <form class="formulario" id="cadastro">
+        <label for="nomeEmpresa"><em>Nome da Empresa:</em></label>
+        <input type="text" name="nomeEmpresa" id="nomeEmpresa">
+
+        <label for="emailPedidos"><em>E-mail para Pedidos:</em></label>
+        <input type="text" name="emailPedidos" id="emailPedidos">
+
+        <label for="prazoEntrega"><em>Prazo Médio de Entrega:</em></label>
+        <input type="text" name="prazoEntrega" id="prazoEntrega" placeholder="Ex: 5 dias úteis">
+
+        <label for="condicaoPagamento"><em>Condição de Pagamento:</em></label>
+        <input type="text" name="condicaoPagamento" id="condicaoPagamento" placeholder="Ex: 30/60 dias">
+
+        <label for="valorPedido"><em>Valor Mínimo de Pedido (R$):</em></label>
+        <input type="number" name="valorPedido" id="valorPedido" min="0" step="0.01" placeholder="0.00">
+
+        <input type="submit" value="Cadastrar" class="botao-enviar">
+      </form>
+    </dialog>
+
+    <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Fornecedores Cadastrados</h2>
+        <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="form-table" id="tabela">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Empresa</th>
+              <th>E-mail</th>
+              <th>Prazo Médio de Entrega</th>
+              <th>Condição de Pagamento</th>
+              <th>Valor Mínimo (R$)</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <!-- Exemplo de linha (pode apagar):
+        <tr>
+          <td>1</td>
+          <td>Editora Alfa</td>
+          <td>pedidos@alfa.com</td>
+          <td>5 dias úteis</td>
+          <td>30/60 dias</td>
+          <td>250,00</td>
+          <td><button type="button" class="botao-editar">Editar</button></td>
+        </tr>
+        -->
+          </tbody>
+        </table>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhum fornecedor cadastrado.</p>
+      </div>
+    </dialog>
+
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+
+  <script src="./fornecedor.js"></script>
+</body>
+
+</html>

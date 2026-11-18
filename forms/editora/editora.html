@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png">
+  <link rel="stylesheet" href="./../../style.css">
+  <title>Cadastro Editora</title>
+</head>
+
+<body>
+
+  <header class="cabecalho">
+    <h1>Cadastro Editora</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria">
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-conteudo-main">
+      <button type="button" class="botao-abrir-modal" data-abrir="modal">
+        Cadastrar Editora
+      </button>
+      <button type="button" class="botao-abrir-modal" id="btn-pesquisar" data-abrir="modal-lista">
+        Ver Editoras
+      </button>
+    </section>
+
+    <dialog class="modal" id="modal" aria-labelledby="titulo-modal">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario" id="titulo-modal">Dados da Editora</h2>
+        <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
+      </div>
+
+      <form class="formulario" id="cadastro" method="POST">
+
+        <label for="nomeEditora"><em>Nome da Editora:</em></label>
+        <input type="text" name="nomeEditora" id="nomeEditora">
+
+        <label for="cnpj"><em>CNPJ:</em></label>
+        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+
+        <label for="enderecoComercial"><em>Endereço Comercial:</em></label>
+        <input type="text" name="enderecoComercial" id="enderecoComercial">
+
+        <label for="telefoneContato"><em>Telefone de Contato:</em></label>
+        <input type="text" name="telefoneContato" id="telefoneContato" maxlength="11">
+
+        <label for="valorMinimoPedido"><em>Valor Mínimo de Pedido (R$):</em></label>
+        <input type="number" name="valorMinimoPedido" id="valorMinimoPedido" min="0" step="0.01" placeholder="0.00">
+
+        <input type="submit" value="Cadastrar" class="botao-enviar">
+      </form>
+    </dialog>
+
+    <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Editoras Cadastradas</h2>
+        <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="form-table" id="tabela">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Editora</th>
+              <th>CNPJ</th>
+              <th>Endereço</th>
+              <th>Telefone</th>
+              <th>Valor Mínimo (R$)</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <!-- Exemplo de linha (pode apagar):
+        <tr>
+          <td>1</td>
+          <td>Editora Alfa</td>
+          <td>00.000.000/0000-00</td>
+          <td>Rua Exemplo, 123</td>
+          <td>(00) 0000-0000</td>
+          <td>100.00</td>
+        </tr>
+        -->
+          </tbody>
+        </table>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhuma Editora cadastrada.</p>
+      </div>
+    </dialog>
+
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+  <script src="./editora.js"></script>
+</body>
+
+</html>
