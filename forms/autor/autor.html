@@ -1,27 +1,43 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./../../logo-livraria.png" type="image/png" />
-    <link rel="stylesheet" href="./../../style.css" />
-    <title>Cadastro Autor</title>
-  </head>
-  <body>
-    <header class="cabecalho">
-      <h1>Cadastro Autor</h1>
-      <img src="./../../logo-livraria.png" alt="Logo da livraria" />
-    </header>
 
-    <nav class="navegacao">
-      <a href="./../../index.html">Voltar para página inicial</a>
-    </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png" />
+  <link rel="stylesheet" href="./../../style.css" />
+  <title>Cadastro Autor</title>
+</head>
 
-    <main class="conteudo">
+<body>
+  <header class="cabecalho">
+    <h1>Cadastro Autor</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria" />
+  </header>
+
+  <nav class="navegacao">
+    <a href="./../../index.html">Voltar para página inicial</a>
+  </nav>
+
+  <main class="conteudo">
+    <section class="secao-conteudo-main">
+      <button type="button" class="botao-abrir-modal" data-abrir="modal">
+        Cadastrar Autor
+      </button>
+      <button type="button" class="botao-abrir-modal" id="btn-pesquisar" data-abrir="modal-lista">
+        Ver Autores
+      </button>
+    </section>
+
+    <dialog class="modal" id="modal" aria-labelledby="titulo-modal">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario" id="titulo-modal">Dados do Autor</h2>
+        <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
+      </div>
       <section class="secao-formulario">
         <h2 class="titulo-formulario">Dados do Autor</h2>
 
-        <form class="formulario" id="form-autor">
+        <form class="formulario" id="cadastro">
           <label for="nome"><em>Nome Completo:</em></label>
           <input type="text" name="nome" id="nome" />
 
@@ -40,12 +56,52 @@
           <input type="submit" value="Cadastrar" class="botao-enviar" />
         </form>
       </section>
-    </main>
+  </main>
 
-    <footer class="rodape">
-      <p><strong>© 2026 - Projeto Livraria</strong></p>
-    </footer>
+  </dialog>
 
-    <script src="./autor.js"></script>
-  </body>
+  <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+    <div class="modal-cabecalho">
+      <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Autores Cadastrados</h2>
+      <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="tabela-wrapper">
+      <table class="form-table" id="tabela">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Autor</th>
+            <th>Nacionalidade</th>
+            <th>Data de Nascimento</th>
+            <th>Resumo das Obras</th>
+            <th>Gênero Literário</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela">
+          <!-- Exemplo de linha (pode apagar):
+        <tr>
+          <td>1</td>
+          <td>J.K. Rowling</td>
+          <td>Britânica</td>
+          <td>31/07/1965</td>
+          <td>Autora da série Harry Potter, conhecida mundialmente.</td>
+          <td>Fantasia</td>
+        </tr>
+        -->
+        </tbody>
+      </table>
+      <p class="tabela-vazia" id="tabela-vazia">Nenhum Autor cadastrado.</p>
+    </div>
+  </dialog>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+
+  <script src="./autor.js"></script>
+</body>
+
 </html>

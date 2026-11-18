@@ -1,76 +1,84 @@
 <?php
 
+require "./../../db/dbconnect.php"; 
+
 header("Content-Type: application/json; charset=UTF-8");
 
-$dados = [
-    "tituloLivro" => trim($_POST["tituloLivro"] ?? ""),
-    "isbn" => trim($_POST["isbn"] ?? ""),
-    "quantidadeAtual" => trim($_POST["quantidadeAtual"] ?? ""),
-    "quantidadeMinima" => trim($_POST["quantidadeMinima"] ?? ""),
-    "localizacao" => trim($_POST["localizacao"] ?? ""),
-    "dataReposicao" => trim($_POST["dataReposicao"] ?? ""),
-    "custoUnitario" => trim($_POST["custoUnitario"] ?? "")
-];
+$metodo = $_SERVER["REQUEST_METHOD"];
 
-$status = "Sucesso";
-$msg = "Estoque cadastrado com sucesso!";
+if ($metodo == "POST") {
+    $dados = [
+        "nome" => trim($_POST["tituloLivro"] ?? ""),
+        "isbn" => trim($_POST["isbn"] ?? ""),
+        "qtde" => trim($_POST["quantidadeAtual"] ?? ""),
+        "qtde_minima" => trim($_POST["quantidadeMinima"] ?? ""),
+        "localizacao" => trim($_POST["localizacao"] ?? ""),
+        "data_reposicao" => trim($_POST["dataReposicao"] ?? ""),
+        "custo_unitario" => trim($_POST["custoUnitario"] ?? "")
+    ];
+    $resposta = verificarDados($dados);
 
-foreach ($dados as $campo => $valor) {
-    if (empty($valor)) {
-        $status = "Erro";
-        $msg = "O campo '$campo' é obrigatório.";
-        echo json_encode([
-            "status" => $status,
-            "mensagem" => $msg,
-            "dados" => $dados
-        ], JSON_UNESCAPED_UNICODE);
-        exit;
+    if (json_decode($resposta)->status === "Sucesso") {
+        $dados = json_decode($resposta, true);
+        $resultado = insert("estoque", $dados["dados"]);
+        echo '{"status": "Sucesso", "mensagem": "Estoque cadastrado com sucesso!", "dados": '. json_encode($resultado) . ' }';
+    } else {
+        echo $resposta;
+    }
+}
+else if ($metodo == "GET") {
+    $dados = findAll( "estoque" ); 
+    echo '{"dados": '. json_encode($dados) . ' }';
+}
+else if ($metodo == "DELETE") {
+    $json = file_get_contents("php://input");
+    $dados = json_decode($json, true);
+
+    $id = $dados["id"] ?? null;
+    if ($id) {
+        $dados = delete("estoque", $id);
+        echo '{"dados": '. json_encode($dados) . ' }';
     }
 }
 
-if (!ctype_digit((int)$dados["quantidadeAtual"])) {
-    $status = "Erro";
-    $msg = "A quantidade atual deve conter apenas números.";
+else if ($metodo == "UPDATE") {
+    $json = file_get_contents("php://input");
+    $dados = json_decode($json, true);
+
+    $id = $dados["id"] ?? null;
+
+    if ($id) {
+        $resposta = verificarDados($dados);
+
+        if (json_decode($resposta)->status === "Sucesso") {
+            $dados = json_decode($resposta, true);
+            $dadosAtualizacao = $dados["dados"];
+            unset($dadosAtualizacao["id"]);
+            $resultado = update("estoque", $id, $dadosAtualizacao);
+
+            echo json_encode([
+                "status" => "Sucesso",
+                "mensagem" => "Estoque atualizado com sucesso!",
+                "dados" => $resultado
+            ], JSON_UNESCAPED_UNICODE);
+        } else {
+            echo $resposta;
+        }
+    }
 }
 
-if ((int)$dados["quantidadeAtual"] < 0) {
-    $status = "Erro";
-    $msg = "A quantidade atual não pode ser negativa.";
+function verificarDados($dados) {
+    $status="Sucesso"; $msg="Estoque cadastrado com sucesso!";
+    foreach ($dados as $campo=>$valor) {
+        if (empty($valor)) { $status="Erro"; $msg="O campo '$campo' e obrigatorio."; return json_encode(["status"=>$status,"mensagem"=>$msg,"dados"=>$dados], JSON_UNESCAPED_UNICODE); }
+    }
+    if (!ctype_digit((string)$dados["qtde"])) { $status="Erro"; $msg="A quantidade atual deve conter apenas numeros inteiros."; }
+    if (!ctype_digit((string)$dados["qtde_minima"])) { $status="Erro"; $msg="A quantidade minima deve conter apenas numeros inteiros."; }
+    if (!is_numeric($dados["custo_unitario"])) { $status="Erro"; $msg="O custo unitario deve ser um numero."; }
+    elseif ((float)$dados["custo_unitario"]<0) { $status="Erro"; $msg="O custo unitario nao pode ser negativo."; }
+    $isbn=preg_replace('/\D/','',$dados["isbn"]);
+    if (strlen($isbn)!=10 && strlen($isbn)!=13) { $status="Erro"; $msg="O ISBN deve conter 10 ou 13 numeros."; } else { $dados["isbn"]=$isbn; }
+    return json_encode(["status"=>$status,"mensagem"=>$msg,"dados"=>$dados], JSON_UNESCAPED_UNICODE);
 }
-
-if (!ctype_digit((int)$dados["quantidadeMinima"])) {
-    $status = "Erro";
-    $msg = "A quantidade atual deve conter apenas números.";
-}
-
-if ((int)$dados["quantidadeMinima"] < 0) {
-    $status = "Erro";
-    $msg = "A quantidade atual não pode ser negativa.";
-}
-
-if (!is_numeric((float)$dados["custoUnitario"])) {
-    $status = "Erro";
-    $msg = "O custo unitário deve ser um número.";
-}
-
-if ((float)$dados["custoUnitario"] < 0) {
-    $status = "Erro";
-    $msg = "O custo unitário não pode ser negativo.";
-}
-
-$isbnNumeros = preg_replace('/\D/', '', $livro["isbn"]);
-if (strlen($isbnNumeros) != 10 && strlen($isbnNumeros) != 13) {
-    $status = "Erro";
-    $msg = "O ISBN deve conter 10 ou 13 números.";
-}
-else {
-    $livro["isbn"] = $isbnNumeros;
-}
-
-echo json_encode([
-    "status" => $status,
-    "mensagem" => $msg,
-    "dados" => $dados
-], JSON_UNESCAPED_UNICODE);
 
 ?>

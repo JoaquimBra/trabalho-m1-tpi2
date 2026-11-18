@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="./../../style.css">
   <title>Cadastro Fornecedor</title>
 </head>
+
 <body>
 
   <header class="cabecalho">
@@ -19,11 +21,22 @@
   </nav>
 
   <main class="conteudo">
-    <section class="secao-formulario">
-      <h2 class="titulo-formulario">Dados do Fornecedor</h2>
+    <section class="secao-conteudo-main">
+      <button type="button" class="botao-abrir-modal" data-abrir="modal">
+        Cadastrar Fornecedor
+      </button>
+      <button type="button" class="botao-abrir-modal" id="btn-pesquisar" data-abrir="modal-lista">
+        Ver Fornecedores
+      </button>
+    </section>
 
-      <form class="formulario" id="form-fornecedor">
+    <dialog class="modal" id="modal" aria-labelledby="titulo-modal">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario" id="titulo-modal">Dados do Fornecedor</h2>
+        <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
+      </div>
 
+      <form class="formulario" id="cadastro">
         <label for="nomeEmpresa"><em>Nome da Empresa:</em></label>
         <input type="text" name="nomeEmpresa" id="nomeEmpresa">
 
@@ -41,7 +54,46 @@
 
         <input type="submit" value="Cadastrar" class="botao-enviar">
       </form>
-    </section>
+    </dialog>
+
+    <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Fornecedores Cadastrados</h2>
+        <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="form-table" id="tabela">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Empresa</th>
+              <th>E-mail</th>
+              <th>Prazo Médio de Entrega</th>
+              <th>Condição de Pagamento</th>
+              <th>Valor Mínimo (R$)</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+            <!-- Exemplo de linha (pode apagar):
+        <tr>
+          <td>1</td>
+          <td>Editora Alfa</td>
+          <td>pedidos@alfa.com</td>
+          <td>5 dias úteis</td>
+          <td>30/60 dias</td>
+          <td>250,00</td>
+          <td><button type="button" class="botao-editar">Editar</button></td>
+        </tr>
+        -->
+          </tbody>
+        </table>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhum fornecedor cadastrado.</p>
+      </div>
+    </dialog>
+
   </main>
 
   <footer class="rodape">
@@ -49,6 +101,6 @@
   </footer>
 
   <script src="./fornecedor.js"></script>
-  <script src="./../../scripts/script.js"></script>
 </body>
+
 </html>
