@@ -9,7 +9,7 @@
   <title>Cadastro Editora</title>
 </head>
 
-<body>
+<body class="auth-carregando">
 
   <header class="cabecalho">
     <h1>Cadastro Editora</h1>
@@ -48,7 +48,7 @@
         <input type="text" name="enderecoComercial" id="enderecoComercial">
 
         <label for="telefoneContato"><em>Telefone de Contato:</em></label>
-        <input type="text" name="telefoneContato" id="telefoneContato" maxlength="11">
+        <input type="text" name="telefoneContato" id="telefoneContato" maxlength="15">
 
         <label for="valorMinimoPedido"><em>Valor Mínimo de Pedido (R$):</em></label>
         <input type="number" name="valorMinimoPedido" id="valorMinimoPedido" min="0" step="0.01" placeholder="0.00">
@@ -77,18 +77,7 @@
               <th>Excluir</th>
             </tr>
           </thead>
-          <tbody id="corpoTabela">
-            <!-- Exemplo de linha (pode apagar):
-        <tr>
-          <td>1</td>
-          <td>Editora Alfa</td>
-          <td>00.000.000/0000-00</td>
-          <td>Rua Exemplo, 123</td>
-          <td>(00) 0000-0000</td>
-          <td>100.00</td>
-        </tr>
-        -->
-          </tbody>
+          <tbody id="corpoTabela"></tbody>
         </table>
         <p class="tabela-vazia" id="tabela-vazia">Nenhuma Editora cadastrada.</p>
       </div>
@@ -99,6 +88,8 @@
   <footer class="rodape">
     <p><strong>© 2026 - Projeto Livraria</strong></p>
   </footer>
+
+  <script src="./../login/sessao.js" data-login="./../login/"></script>
   <script src="./editora.js"></script>
 </body>
 

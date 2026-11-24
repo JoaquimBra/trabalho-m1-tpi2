@@ -6,6 +6,15 @@ USE livraria;
 -- Tabelas independentes
 -- =========================
 
+CREATE TABLE usuario (
+  id    INT AUTO_INCREMENT NOT NULL,
+  nome  VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  senha VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_usuario_email (email)
+);
+
 CREATE TABLE cliente (
   id              INT AUTO_INCREMENT NOT NULL,
   nome            VARCHAR(100) NOT NULL,
@@ -91,12 +100,20 @@ CREATE TABLE item_venda (
   id          INT AUTO_INCREMENT NOT NULL,
   id_estoque  INT NOT NULL,
   id_venda    INT NOT NULL,
+  quantidade  INT NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
   CONSTRAINT fk_estoque_id_item_venda
     FOREIGN KEY (id_estoque) REFERENCES estoque (id),
   CONSTRAINT fk_venda_id_item_venda
-    FOREIGN KEY (id_venda) REFERENCES venda (id)
+    FOREIGN KEY (id_venda) REFERENCES venda (id) ON DELETE CASCADE
 );
+
+-- =========================
+-- USUARIO (senha padrao: 123456)
+-- =========================
+
+INSERT INTO usuario (nome, email, senha) VALUES
+('Administrador', 'admin@livraria.com', '$2y$12$j2k4b13llgXBhaZMdKLmvuJYI/o7zRuIjX5lWC0gR074bYEG0CcJm');
 
 -- =========================
 -- CLIENTE
@@ -192,11 +209,11 @@ INSERT INTO venda (data_venda, pagamento, desconto, cupom_fiscal, id_cliente) VA
 -- ITEM_VENDA
 -- =========================
 
-INSERT INTO item_venda (id_estoque, id_venda) VALUES
-(1, 1),
-(2, 1),
-(3, 2),
-(1, 3),
-(4, 3),
-(5, 4),
-(2, 5);
+INSERT INTO item_venda (id_estoque, id_venda, quantidade) VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 2, 1),
+(1, 3, 2),
+(4, 3, 1),
+(5, 4, 1),
+(2, 5, 1);

@@ -9,7 +9,7 @@
   <title>Cadastro Cliente</title>
 </head>
 
-<body>
+<body class="auth-carregando">
   <header class="cabecalho">
     <h1>Cadastro Cliente</h1>
     <img src="./../../logo-livraria.png" alt="Logo da livraria" />
@@ -57,7 +57,7 @@
         <input type="submit" value="Cadastrar" class="botao-enviar" />
       </form>
     </dialog>
-      
+
     <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
       <div class="modal-cabecalho">
         <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Clientes Cadastrados</h2>
@@ -79,19 +79,7 @@
               <th>Excluir</th>
             </tr>
           </thead>
-          <tbody id="corpoTabela">
-            <!-- Exemplo de linha (pode apagar):
-        <tr>
-          <td>1</td>
-          <td>João Silva</td>
-          <td>000.000.000-00</td>
-          <td>01/01/1990</td>
-          <td>joao.silva@email.com</td>
-          <td>987654321</td>
-          <td>Rua Exemplo, 123</td>
-        </tr>
-        -->
-          </tbody>
+          <tbody id="corpoTabela"></tbody>
         </table>
         <p class="tabela-vazia" id="tabela-vazia">Nenhum Cliente cadastrado.</p>
       </div>
@@ -103,6 +91,7 @@
     <p><strong>© 2026 - Projeto Livraria</strong></p>
   </footer>
 
+  <script src="./../login/sessao.js" data-login="./../login/"></script>
   <script src="./cliente.js"></script>
 </body>
 

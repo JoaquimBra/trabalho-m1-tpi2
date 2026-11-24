@@ -9,7 +9,7 @@
   <title>Cadastro Autor</title>
 </head>
 
-<body>
+<body class="auth-carregando">
   <header class="cabecalho">
     <h1>Cadastro Autor</h1>
     <img src="./../../logo-livraria.png" alt="Logo da livraria" />
@@ -34,73 +34,59 @@
         <h2 class="titulo-formulario" id="titulo-modal">Dados do Autor</h2>
         <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
       </div>
-      <section class="secao-formulario">
-        <h2 class="titulo-formulario">Dados do Autor</h2>
 
-        <form class="formulario" id="cadastro">
-          <label for="nome"><em>Nome Completo:</em></label>
-          <input type="text" name="nome" id="nome" />
+      <form class="formulario" id="cadastro">
+        <label for="nome"><em>Nome Completo:</em></label>
+        <input type="text" name="nome" id="nome" />
 
-          <label for="nacionalidade"><em>Nacionalidade:</em></label>
-          <input type="text" name="nacionalidade" id="nacionalidade" />
+        <label for="nacionalidade"><em>Nacionalidade:</em></label>
+        <input type="text" name="nacionalidade" id="nacionalidade" />
 
-          <label for="dataNasc"><em>Data de Nascimento:</em></label>
-          <input type="date" name="dataNasc" id="dataNasc" />
+        <label for="dataNasc"><em>Data de Nascimento:</em></label>
+        <input type="date" name="dataNasc" id="dataNasc" />
 
-          <label for="bibliografia"><em>Resumo das Obras:</em></label>
-          <textarea name="bibliografia" id="bibliografia" rows="3"></textarea>
+        <label for="bibliografia"><em>Resumo das Obras:</em></label>
+        <textarea name="bibliografia" id="bibliografia" rows="3"></textarea>
 
-          <label for="genero"><em>Gênero Literário Principal:</em></label>
-          <input type="text" name="genero" id="genero" />
+        <label for="genero"><em>Gênero Literário Principal:</em></label>
+        <input type="text" name="genero" id="genero" />
 
-          <input type="submit" value="Cadastrar" class="botao-enviar" />
-        </form>
-      </section>
+        <input type="submit" value="Cadastrar" class="botao-enviar" />
+      </form>
+    </dialog>
+
+    <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
+      <div class="modal-cabecalho">
+        <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Autores Cadastrados</h2>
+        <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table class="form-table" id="tabela">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Autor</th>
+              <th>Nacionalidade</th>
+              <th>Data de Nascimento</th>
+              <th>Resumo das Obras</th>
+              <th>Gênero Literário</th>
+              <th>Editar</th>
+              <th>Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela"></tbody>
+        </table>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhum Autor cadastrado.</p>
+      </div>
+    </dialog>
   </main>
-
-  </dialog>
-
-  <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
-    <div class="modal-cabecalho">
-      <h2 class="titulo-formulario titulo-listagem" id="titulo-lista">Autores Cadastrados</h2>
-      <button type="button" class="botao-fechar-modal" data-fechar aria-label="Fechar">&times;</button>
-    </div>
-
-    <div class="tabela-wrapper">
-      <table class="form-table" id="tabela">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Autor</th>
-            <th>Nacionalidade</th>
-            <th>Data de Nascimento</th>
-            <th>Resumo das Obras</th>
-            <th>Gênero Literário</th>
-            <th>Editar</th>
-            <th>Excluir</th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabela">
-          <!-- Exemplo de linha (pode apagar):
-        <tr>
-          <td>1</td>
-          <td>J.K. Rowling</td>
-          <td>Britânica</td>
-          <td>31/07/1965</td>
-          <td>Autora da série Harry Potter, conhecida mundialmente.</td>
-          <td>Fantasia</td>
-        </tr>
-        -->
-        </tbody>
-      </table>
-      <p class="tabela-vazia" id="tabela-vazia">Nenhum Autor cadastrado.</p>
-    </div>
-  </dialog>
 
   <footer class="rodape">
     <p><strong>© 2026 - Projeto Livraria</strong></p>
   </footer>
 
+  <script src="./../login/sessao.js" data-login="./../login/"></script>
   <script src="./autor.js"></script>
 </body>
 

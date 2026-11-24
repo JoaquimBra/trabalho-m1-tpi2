@@ -1,13 +1,13 @@
 <?php
 
-require "./../../db/dbconnect.php"; 
+require "./../login/sessao.php";
+require "./../../db/dbconnect.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 
 $metodo = $_SERVER["REQUEST_METHOD"];
 
 if ($metodo == "POST") {
-
     $dados = [
         "nome" => trim($_POST["nomeEmpresa"] ?? ""),
         "email" => trim($_POST["emailPedidos"] ?? ""),
@@ -15,19 +15,23 @@ if ($metodo == "POST") {
         "condicao_pagamento" => trim($_POST["condicaoPagamento"] ?? ""),
         "valor_minimo" => trim($_POST["valorPedido"] ?? "")
     ];
+
     $resposta = verificarDados($dados);
 
-    if (json_decode($resposta)->status === "Sucesso") {
-        $dados = json_decode($resposta, true);
-        $resultado = insert("fornecedor", $dados["dados"]);
-        echo '{"status": "Sucesso", "mensagem": "Fornecedor cadastrado com sucesso!", "dados": '. json_encode($resultado) . ' }';
+    if ($resposta["status"] === "Sucesso") {
+        $resultado = insert("fornecedor", $resposta["dados"]);
+        echo json_encode([
+            "status" => "Sucesso",
+            "mensagem" => "Fornecedor cadastrado com sucesso!",
+            "dados" => $resultado
+        ], JSON_UNESCAPED_UNICODE);
     } else {
-        echo $resposta;
+        echo json_encode($resposta, JSON_UNESCAPED_UNICODE);
     }
-} 
+}
 else if ($metodo == "GET") {
-    $dados = findAll( "fornecedor" ); 
-    echo '{"dados": '. json_encode($dados) . ' }';
+    $dados = findAll("fornecedor");
+    echo json_encode(["dados" => $dados], JSON_UNESCAPED_UNICODE);
 }
 else if ($metodo == "DELETE") {
     $json = file_get_contents("php://input");
@@ -35,26 +39,21 @@ else if ($metodo == "DELETE") {
 
     $id = $dados["id"] ?? null;
     if ($id) {
-        $dados = delete("fornecedor", $id);
-        echo '{"dados": '. json_encode($dados) . ' }';
+        $resultado = delete("fornecedor", $id);
+        echo json_encode(["dados" => $resultado], JSON_UNESCAPED_UNICODE);
     }
 }
-else if ($metodo == "UPDATE") {
+else if ($metodo == "UPDATE" || $metodo == "PUT") {
     $json = file_get_contents("php://input");
     $dados = json_decode($json, true);
 
     $id = $dados["id"] ?? null;
-
     if ($id) {
         $resposta = verificarDados($dados);
 
-        if (json_decode($resposta)->status === "Sucesso") {
-            $dados = json_decode($resposta, true);
-
-            $dadosAtualizacao = $dados["dados"];
-
+        if ($resposta["status"] === "Sucesso") {
+            $dadosAtualizacao = $resposta["dados"];
             unset($dadosAtualizacao["id"]);
-
             $resultado = update("fornecedor", $id, $dadosAtualizacao);
 
             echo json_encode([
@@ -62,50 +61,31 @@ else if ($metodo == "UPDATE") {
                 "mensagem" => "Fornecedor atualizado com sucesso!",
                 "dados" => $resultado
             ], JSON_UNESCAPED_UNICODE);
-
         } else {
-            echo $resposta;
+            echo json_encode($resposta, JSON_UNESCAPED_UNICODE);
         }
     }
 }
 
 function verificarDados($dados) {
-
-    $status = "Sucesso";
-    $msg = "Fornecedor cadastrado com sucesso!";
-
-    foreach ($dados as $campo => $valor) {
-        if (empty($valor)) {
-            $status = "Erro";
-            $msg = "O campo '$campo' é obrigatório.";
-            return json_encode([
-                "status" => $status,
-                "mensagem" => $msg,
-                "dados" => $dados
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+    $obrigatorios = ["nome", "prazo_entrega", "condicao_pagamento", "valor_minimo"];
+    foreach ($obrigatorios as $campo) {
+        if ($dados[$campo] === "" || $dados[$campo] === null) {
+            return ["status" => "Erro", "mensagem" => "O campo '$campo' é obrigatório.", "dados" => $dados];
         }
     }
 
-    if (!filter_var($dados["email"], FILTER_VALIDATE_EMAIL)) {
-        $status = "Erro";
-        $msg = "O e-mail informado é inválido.";
+    if ($dados["email"] === "") {
+        $dados["email"] = null;
+    } else if (!filter_var($dados["email"], FILTER_VALIDATE_EMAIL)) {
+        return ["status" => "Erro", "mensagem" => "O e-mail informado é inválido.", "dados" => $dados];
     }
 
-    if (!is_numeric((float)$dados["valor_minimo"])) {
-        $status = "Erro";
-        $msg = "O valor mínimo do pedido deve ser um número.";
-    }
-    if ((float)$dados["valor_minimo"] < 0) {
-        $status = "Erro";
-        $msg = "O valor mínimo do pedido não pode ser negativo.";
+    if (!is_numeric($dados["valor_minimo"]) || (float)$dados["valor_minimo"] < 0) {
+        return ["status" => "Erro", "mensagem" => "O valor mínimo do pedido deve ser um número positivo.", "dados" => $dados];
     }
 
-    return json_encode([
-        "status" => $status,
-        "mensagem" => $msg,
-        "dados" => $dados
-    ], JSON_UNESCAPED_UNICODE);
+    return ["status" => "Sucesso", "mensagem" => "Fornecedor cadastrado com sucesso!", "dados" => $dados];
 }
 
 ?>

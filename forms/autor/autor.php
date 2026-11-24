@@ -1,6 +1,7 @@
 <?php
 
-require "./../../db/dbconnect.php"; 
+require "./../login/sessao.php";
+require "./../../db/dbconnect.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -14,19 +15,23 @@ if ($metodo == "POST") {
         "resumo" => trim($_POST["bibliografia"] ?? ""),
         "genero" => trim($_POST["genero"] ?? "")
     ];
+
     $resposta = verificarDados($dados);
 
-    if (json_decode($resposta)->status === "Sucesso") {
-        $dados = json_decode($resposta, true);
-        $resultado = insert("autor", $dados["dados"]);
-        echo '{"status": "Sucesso", "mensagem": "Autor cadastrado com sucesso!", "dados": '. json_encode($resultado) . ' }';
+    if ($resposta["status"] === "Sucesso") {
+        $resultado = insert("autor", $resposta["dados"]);
+        echo json_encode([
+            "status" => "Sucesso",
+            "mensagem" => "Autor cadastrado com sucesso!",
+            "dados" => $resultado
+        ], JSON_UNESCAPED_UNICODE);
     } else {
-        echo $resposta;
+        echo json_encode($resposta, JSON_UNESCAPED_UNICODE);
     }
 }
 else if ($metodo == "GET") {
-    $dados = findAll( "autor" ); 
-    echo '{"dados": '. json_encode($dados) . ' }';
+    $dados = findAll("autor");
+    echo json_encode(["dados" => $dados], JSON_UNESCAPED_UNICODE);
 }
 else if ($metodo == "DELETE") {
     $json = file_get_contents("php://input");
@@ -34,23 +39,20 @@ else if ($metodo == "DELETE") {
 
     $id = $dados["id"] ?? null;
     if ($id) {
-        $dados = delete("autor", $id);
-        echo '{"dados": '. json_encode($dados) . ' }';
+        $resultado = delete("autor", $id);
+        echo json_encode(["dados" => $resultado], JSON_UNESCAPED_UNICODE);
     }
 }
-
-else if ($metodo == "UPDATE") {
+else if ($metodo == "UPDATE" || $metodo == "PUT") {
     $json = file_get_contents("php://input");
     $dados = json_decode($json, true);
 
     $id = $dados["id"] ?? null;
-
     if ($id) {
         $resposta = verificarDados($dados);
 
-        if (json_decode($resposta)->status === "Sucesso") {
-            $dados = json_decode($resposta, true);
-            $dadosAtualizacao = $dados["dados"];
+        if ($resposta["status"] === "Sucesso") {
+            $dadosAtualizacao = $resposta["dados"];
             unset($dadosAtualizacao["id"]);
             $resultado = update("autor", $id, $dadosAtualizacao);
 
@@ -60,23 +62,30 @@ else if ($metodo == "UPDATE") {
                 "dados" => $resultado
             ], JSON_UNESCAPED_UNICODE);
         } else {
-            echo $resposta;
+            echo json_encode($resposta, JSON_UNESCAPED_UNICODE);
         }
     }
 }
 
 function verificarDados($dados) {
-    $status = "Sucesso";
-    $msg = "Autor cadastrado com sucesso!";
-
     foreach ($dados as $campo => $valor) {
-        if (empty($valor)) {
-            $status = "Erro";
-            $msg = "O campo '$campo' e obrigatorio.";
-            return json_encode(["status" => $status, "mensagem" => $msg, "dados" => $dados], JSON_UNESCAPED_UNICODE);
+        if ($valor === "" || $valor === null) {
+            return ["status" => "Erro", "mensagem" => "O campo '$campo' é obrigatório.", "dados" => $dados];
         }
     }
-    return json_encode(["status" => $status, "mensagem" => $msg, "dados" => $dados], JSON_UNESCAPED_UNICODE);
+
+    $nascimento = DateTime::createFromFormat("Y-m-d", $dados["data_nascimento"]);
+    $hoje = new DateTime();
+    if (!$nascimento || $nascimento > $hoje) {
+        return ["status" => "Erro", "mensagem" => "A data de nascimento é inválida.", "dados" => $dados];
+    }
+
+    $idade = $hoje->diff($nascimento)->y;
+    if ($idade < 18) {
+        return ["status" => "Erro", "mensagem" => "O autor deve ter no mínimo 18 anos.", "dados" => $dados];
+    }
+
+    return ["status" => "Sucesso", "mensagem" => "Autor cadastrado com sucesso!", "dados" => $dados];
 }
 
 ?>

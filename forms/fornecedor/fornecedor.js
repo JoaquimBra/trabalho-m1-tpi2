@@ -1,27 +1,9 @@
-const modal = document.querySelector("#modal");
 const form = document.querySelector("#cadastro");
 const pesquisar = document.querySelector("#btn-pesquisar");
+const corpoTabela = document.getElementById("corpoTabela");
+const msgVazia = document.getElementById("tabela-vazia");
 
-document.querySelector(".botao-abrir-modal").addEventListener("click", () => {
-  modal.showModal();
-});
-
-document.querySelector(".botao-fechar-modal").addEventListener("click", () => {
-  modal.close();
-});
-
-// Fecha ao clicar fora da caixa (no backdrop)
-modal.addEventListener("click", (e) => {
-  const area = modal.getBoundingClientRect();
-  const dentro =
-    e.clientX >= area.left &&
-    e.clientX <= area.right &&
-    e.clientY >= area.top &&
-    e.clientY <= area.bottom;
-  if (!dentro) modal.close();
-});
-
-// Abrir
+// Abrir modais
 document.querySelectorAll("[data-abrir]").forEach((botao) => {
   botao.addEventListener("click", () => {
     document.getElementById(botao.dataset.abrir).showModal();
@@ -29,31 +11,27 @@ document.querySelectorAll("[data-abrir]").forEach((botao) => {
 });
 
 // Fechar pelo botão × e ao clicar fora da caixa
-document.querySelectorAll("dialog.modal").forEach((modal) => {
-  modal
+document.querySelectorAll("dialog.modal").forEach((dialog) => {
+  dialog
     .querySelector(".botao-fechar-modal")
-    .addEventListener("click", () => modal.close());
+    .addEventListener("click", () => dialog.close());
 
-  modal.addEventListener("click", (e) => {
-    const area = modal.getBoundingClientRect();
+  dialog.addEventListener("click", (e) => {
+    const area = dialog.getBoundingClientRect();
     const dentro =
       e.clientX >= area.left &&
       e.clientX <= area.right &&
       e.clientY >= area.top &&
       e.clientY <= area.bottom;
-    if (!dentro) modal.close();
+    if (!dentro) dialog.close();
   });
 });
 
 // Mostra/esconde a mensagem de tabela vazia
-const corpoTabela = document.getElementById("corpoTabela");
-const msgVazia = document.getElementById("tabela-vazia");
-
 function atualizarVazio() {
   msgVazia.hidden = corpoTabela.rows.length > 0;
 }
 
-new MutationObserver(atualizarVazio).observe(corpoTabela, { childList: true });
 atualizarVazio();
 
 form.addEventListener("submit", async (e) => {
@@ -67,9 +45,10 @@ form.addEventListener("submit", async (e) => {
   })
     .then((r) => r.json())
     .then((r) => {
-      form.reset();
       alert(r.status + " - " + r.mensagem);
-      console.log(r.dados);
+      if (r.status === "Sucesso") {
+        form.reset();
+      }
     })
     .catch((error) => {
       console.error("Erro: ", error);
@@ -86,12 +65,11 @@ function atualizarTabela() {
   })
     .then((r) => r.json())
     .then((r) => {
-      if (corpoTabela.children.length > 0) {
-        corpoTabela.replaceChildren();
-      }
-      r.dados.forEach((valores) => {
+      corpoTabela.replaceChildren();
+      (r.dados || []).forEach((valores) => {
         adicionarLinhaTabela(corpoTabela, valores);
       });
+      atualizarVazio();
     })
     .catch((error) => {
       console.error("Erro: ", error);
@@ -99,37 +77,43 @@ function atualizarTabela() {
 }
 
 function editar(dados) {
+  const confirmacao = confirm(
+    "Deseja realmente editar o fornecedor " + dados.nome + "?",
+  );
+  if (!confirmacao) return;
+
   fetch("fornecedor.php", {
-    method: "UPDATE",
+    method: "PUT",
     body: JSON.stringify(dados),
   })
     .then((r) => r.json())
     .then((r) => {
-      const confirmacao = confirm(
-        "Deseja realmente editar o fornecedor " + dados.nome + "?",
-      );
-      if (!confirmacao) return;
       alert(r.status + " - " + r.mensagem);
+      if (r.status === "Sucesso") {
+        atualizarTabela();
+      }
     })
     .catch((error) => {
       console.error("Erro: ", error);
     });
 }
 
-function excluir(id) {
+function excluir(linha) {
+  const confirmacao = confirm(
+    "Deseja realmente excluir o fornecedor " + linha.nome + "?",
+  );
+  if (!confirmacao) return;
+
   fetch("fornecedor.php", {
     method: "DELETE",
-    body: JSON.stringify({
-      id: id,
-    }),
+    body: JSON.stringify({ id: linha.id }),
   })
     .then((r) => r.json())
     .then((r) => {
-      const confirmacao = confirm(
-        "Deseja realmente excluir o fornecedor de ID: " + id + "?",
-      );
-      if (!confirmacao) return;
-
+      if (r.status === "Erro") {
+        alert(r.status + " - " + r.mensagem);
+        return;
+      }
       atualizarTabela();
     })
     .catch((error) => {
@@ -138,11 +122,9 @@ function excluir(id) {
 }
 
 function adicionarLinhaTabela(corpo, linha) {
-  let tr = document.createElement("tr");
+  const tr = document.createElement("tr");
+  const id = linha.id;
 
-  let id = linha.id;
-
-  // Colunas e propriedades correspondentes
   const campos = {
     nomeEmpresa: "nome",
     emailPedidos: "email",
@@ -151,55 +133,48 @@ function adicionarLinhaTabela(corpo, linha) {
     valorPedido: "valor_minimo",
   };
 
-  // Coluna do ID
-  let tdId = document.createElement("td");
+  const tdId = document.createElement("td");
   tdId.textContent = id;
   tr.appendChild(tdId);
 
-  // Criação dos inputs
   Object.entries(campos).forEach(([nome, propriedade]) => {
-    let td = document.createElement("td");
-    let input = document.createElement("input");
-
+    const td = document.createElement("td");
+    const input = document.createElement("input");
+    if (propriedade === "valor_minimo") {
+      input.type = "number";
+      input.step = "0.01";
+    }
     input.name = nome + id;
-    input.value = linha[propriedade];
-
+    input.value = linha[propriedade] ?? "";
     td.appendChild(input);
     tr.appendChild(td);
   });
 
-  // Coluna de ações
-  let tdAcaoEditar = document.createElement("td");
-  let linkEditar = document.createElement("button");
-  let tdAcaoExcluir = document.createElement("td");
-  let linkExcluir = document.createElement("button");
-
+  const tdAcaoEditar = document.createElement("td");
+  const linkEditar = document.createElement("button");
   linkEditar.textContent = "Editar";
-
-  linkEditar.addEventListener("click", function (event) {
+  linkEditar.addEventListener("click", (event) => {
     event.preventDefault();
-
-    const dadosAtualizados = {
-        id: id,
-        nome: tr.querySelector(`[name="nomeEmpresa${id}"]`).value,
-        email: tr.querySelector(`[name="emailPedidos${id}"]`).value,
-        prazo_entrega: tr.querySelector(`[name="prazoEntrega${id}"]`).value,
-        condicao_pagamento: tr.querySelector(`[name="condicaoPagamento${id}"]`).value,
-        valor_minimo: tr.querySelector(`[name="valorPedido${id}"]`).value
-    };
-
-    editar(dadosAtualizados);
-});
-
-  linkExcluir.textContent = "Excluir";
-
-  linkExcluir.addEventListener("click", function (event) {
-    event.preventDefault();
-    excluir(linha.id);
+    editar({
+      id: id,
+      nome: tr.querySelector(`[name="nomeEmpresa${id}"]`).value,
+      email: tr.querySelector(`[name="emailPedidos${id}"]`).value,
+      prazo_entrega: tr.querySelector(`[name="prazoEntrega${id}"]`).value,
+      condicao_pagamento: tr.querySelector(`[name="condicaoPagamento${id}"]`).value,
+      valor_minimo: tr.querySelector(`[name="valorPedido${id}"]`).value,
+    });
   });
-
   tdAcaoEditar.appendChild(linkEditar);
+
+  const tdAcaoExcluir = document.createElement("td");
+  const linkExcluir = document.createElement("button");
+  linkExcluir.textContent = "Excluir";
+  linkExcluir.addEventListener("click", (event) => {
+    event.preventDefault();
+    excluir(linha);
+  });
   tdAcaoExcluir.appendChild(linkExcluir);
+
   tr.appendChild(tdAcaoEditar);
   tr.appendChild(tdAcaoExcluir);
 
