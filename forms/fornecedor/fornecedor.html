@@ -9,7 +9,7 @@
   <title>Cadastro Fornecedor</title>
 </head>
 
-<body>
+<body class="auth-carregando">
 
   <header class="cabecalho">
     <h1>Cadastro Fornecedor</h1>
@@ -76,19 +76,7 @@
               <th>Excluir</th>
             </tr>
           </thead>
-          <tbody id="corpoTabela">
-            <!-- Exemplo de linha (pode apagar):
-        <tr>
-          <td>1</td>
-          <td>Editora Alfa</td>
-          <td>pedidos@alfa.com</td>
-          <td>5 dias úteis</td>
-          <td>30/60 dias</td>
-          <td>250,00</td>
-          <td><button type="button" class="botao-editar">Editar</button></td>
-        </tr>
-        -->
-          </tbody>
+          <tbody id="corpoTabela"></tbody>
         </table>
         <p class="tabela-vazia" id="tabela-vazia">Nenhum fornecedor cadastrado.</p>
       </div>
@@ -100,6 +88,7 @@
     <p><strong>© 2026 - Projeto Livraria</strong></p>
   </footer>
 
+  <script src="./../login/sessao.js" data-login="./../login/"></script>
   <script src="./fornecedor.js"></script>
 </body>
 

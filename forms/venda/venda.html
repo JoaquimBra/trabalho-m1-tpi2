@@ -9,7 +9,7 @@
   <title>Cadastro Venda</title>
 </head>
 
-<body>
+<body class="auth-carregando">
 
   <header class="cabecalho">
     <h1>Cadastro Venda</h1>
@@ -35,39 +35,42 @@
         <h2 class="titulo-formulario" id="titulo-modal">Dados da Venda</h2>
         <button type="button" class="botao-fechar-modal" id="fechar-modal" aria-label="Fechar">&times;</button>
       </div>
-      <section class="secao-formulario">
-        <h2 class="titulo-formulario">Dados da Venda</h2>
 
-        <form class="formulario" id="cadastro" method="POST">
+      <form class="formulario" id="cadastro" method="POST">
 
-          <label for="dataVenda"><em>Data da Venda:</em></label>
-          <input type="date" name="dataVenda" id="dataVenda">
+        <label for="idCliente"><em>Cliente:</em></label>
+        <select name="idCliente" id="idCliente">
+          <option value="">Selecione o Cliente</option>
+        </select>
 
-          <label for="formaPagamento"><em>Forma de Pagamento:</em></label>
-          <select name="formaPagamento" id="formaPagamento">
-            <option value="">Selecione</option>
-            <option value="pix">Pix</option>
-            <option value="cartao">Cartão</option>
-            <option value="dinheiro">Dinheiro</option>
-          </select>
+        <label for="dataVenda"><em>Data e Hora da Venda:</em></label>
+        <input type="datetime-local" name="dataVenda" id="dataVenda">
 
-          <label for="descontoAplicado"><em>Desconto Aplicado (%):</em></label>
-          <input type="number" name="descontoAplicado" id="descontoAplicado" min="0" max="100" placeholder="0">
+        <label for="formaPagamento"><em>Forma de Pagamento:</em></label>
+        <select name="formaPagamento" id="formaPagamento">
+          <option value="">Selecione</option>
+          <option value="dinheiro">Dinheiro</option>
+          <option value="pix">Pix</option>
+          <option value="cartao_credito">Cartão de Crédito</option>
+          <option value="cartao_debito">Cartão de Débito</option>
+          <option value="boleto">Boleto</option>
+        </select>
 
-          <label for="cupomFiscal"><em>Número do Cupom Fiscal:</em></label>
-          <input type="text" name="cupomFiscal" id="cupomFiscal">
+        <label for="descontoAplicado"><em>Desconto Aplicado (%):</em></label>
+        <input type="number" name="descontoAplicado" id="descontoAplicado" min="0" max="100" step="0.01" value="0">
 
-          <label><em>Itens da Venda:</em></label>
-          <div id="itensVendaContainer"></div>
-          <button type="button" id="btnAdicionarItem" class="botao-enviar"
-            style="margin-top:0; background-color:#C9922A; border-color:#C9922A;">
-            + Adicionar Item
-          </button>
+        <label for="cupomFiscal"><em>Número do Cupom Fiscal:</em></label>
+        <input type="number" name="cupomFiscal" id="cupomFiscal" min="1" placeholder="Opcional">
 
-          <input type="submit" value="Cadastrar Venda" class="botao-enviar">
-        </form>
-      </section>
+        <label><em>Itens da Venda (Livro e Quantidade):</em></label>
+        <div id="itensVendaContainer"></div>
+        <button type="button" id="btnAdicionarItem" class="botao-enviar"
+          style="margin-top:0; background-color:#C9922A; border-color:#C9922A;">
+          + Adicionar Item
+        </button>
 
+        <input type="submit" value="Cadastrar Venda" class="botao-enviar">
+      </form>
     </dialog>
 
     <dialog class="modal modal-largo" id="modal-lista" aria-labelledby="titulo-lista">
@@ -81,27 +84,19 @@
           <thead>
             <tr>
               <th>Id</th>
+              <th>Cliente</th>
               <th>Data Venda</th>
               <th>Forma Pagamento</th>
               <th>Desconto (%)</th>
               <th>Cupom Fiscal</th>
+              <th>Itens Vendidos</th>
               <th>Editar</th>
               <th>Excluir</th>
             </tr>
           </thead>
-          <tbody id="corpoTabela">
-            <!-- Exemplo de linha (pode apagar):
-            <tr>
-              <td>1</td>
-              <td>2023-10-01</td>
-              <td>14:30</td>
-              <td>Pix</td>
-              <td>10%</td>
-              <td>Item 1, Item 2</td>                
-        -->
-          </tbody>
+          <tbody id="corpoTabela"></tbody>
         </table>
-        <p class="tabela-vazia" id="tabela-vazia">Nenhum Venda cadastrado.</p>
+        <p class="tabela-vazia" id="tabela-vazia">Nenhuma Venda cadastrada.</p>
       </div>
     </dialog>
   </main>
@@ -110,6 +105,7 @@
     <p><strong>© 2026 - Projeto Livraria</strong></p>
   </footer>
 
+  <script src="./../login/sessao.js" data-login="./../login/"></script>
   <script src="./venda.js"></script>
 </body>
 

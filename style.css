@@ -446,7 +446,7 @@ body {
   font-weight: 600;
   color: #1a1814;
   text-align: center;
-  margin: bottom 24px;
+  margin-bottom: 24px;
 }
 
 .titulo-formulario::before {
@@ -472,7 +472,7 @@ body {
   margin-top: 6px;
 }
 
-.formulario input,
+.formulario input:not([type="submit"]),
 .formulario select,
 .formulario textarea {
   width: 100%;
@@ -486,7 +486,7 @@ body {
   outline: none;
 }
 
-.formulario input:focus,
+.formulario input:not([type="submit"]):focus,
 .formulario select:focus,
 .formulario textarea:focus {
   border: 1px solid #c9922a;
@@ -510,4 +510,290 @@ body {
   background-color: #c9922a;
   border-color: #c9922a;
   color: #ffffff;
+}
+
+/* Botão que abre o modal */
+.botao-abrir-modal {
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+  margin-block-end: 20px;
+  padding: 12px 28px;
+  background-color: var(--cor-escura);
+  color: var(--cor-fundo);
+  border: 1px solid var(--cor-escura);
+  border-radius: 20px;
+  font-family: var(--fonte-base);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.botao-abrir-modal:hover {
+  background-color: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+}
+
+/* Modal */
+.modal {
+  width: min(560px, calc(100% - 32px));
+  max-height: calc(100vh - 48px);
+  margin: auto;
+  padding: 32px;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  border-top: 3px solid var(--cor-destaque);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(26, 24, 20, 0.35);
+  overflow-y: auto;
+}
+
+.modal[open] {
+  animation: modal-entrada 0.25s ease;
+}
+
+.modal::backdrop {
+  background-color: rgba(26, 24, 20, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+@keyframes modal-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-cabecalho {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.modal-cabecalho .titulo-formulario {
+  margin: 0;
+}
+
+.botao-fechar-modal {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--cor-texto-muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.botao-fechar-modal:hover {
+  color: var(--cor-texto);
+  background-color: var(--cor-superficie);
+}
+
+/* Variações do modal */
+.modal-largo {
+  width: min(1360px, calc(100% - 32px));
+}
+
+.titulo-listagem::before {
+  content: "LISTAGEM";
+}
+
+.titulo-login::before {
+  content: "ACESSO";
+}
+
+/* Tabela */
+.tabela-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  background-color: var(--cor-card);
+}
+
+.form-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-family: var(--fonte-base);
+  font-size: 0.85rem;
+}
+
+.form-table thead {
+  background-color: var(--cor-escura);
+}
+
+.form-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cor-fundo);
+  white-space: nowrap;
+  border-bottom: 2px solid var(--cor-destaque);
+}
+
+.form-table td {
+  padding: 12px 16px;
+  color: var(--cor-texto);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.form-table tbody tr:nth-child(even) {
+  background-color: var(--cor-fundo);
+}
+
+.form-table tbody tr:hover {
+  background-color: var(--cor-superficie);
+}
+
+.form-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-vazia {
+  padding: 28px 16px;
+  text-align: center;
+  font-style: italic;
+  color: var(--cor-texto-muted);
+}
+
+.tabela-vazia[hidden] {
+  display: none;
+}
+
+.form-table input,
+.form-table select {
+  width: 100%;
+  min-width: 140px;
+  padding: 5px 8px;
+  border: 1px solid #bbb7b0;
+  border-radius: 8px;
+  background-color: #faf8f4;
+  color: #1a1814;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.form-table input:focus,
+.form-table select:focus {
+  border: 1px solid #c9922a;
+  background-color: #ffffff;
+}
+
+.form-table button {
+  padding: 6px 12px;
+  background-color: #1a1814;
+  color: #faf8f4;
+  border: 1px solid #1a1814;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  cursor: pointer;
+}
+
+.form-table button:hover {
+  background-color: #c9922a;
+  border-color: #c9922a;
+  color: #ffffff;
+}
+
+/* Itens da venda */
+.item-venda-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.item-venda-row select {
+  flex: 1;
+}
+
+.item-venda-row input[type="number"] {
+  width: 85px;
+}
+
+.botao-remover-item {
+  padding: 10px 12px;
+  background-color: #8b2e2e;
+  color: #ffffff;
+  border: 1px solid #8b2e2e;
+  border-radius: 8px;
+  font-family: var(--fonte-base);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao-remover-item:hover {
+  background-color: #6d2222;
+}
+
+/* Login / Cadastro e barra de sessão */
+body.auth-carregando {
+  visibility: hidden;
+}
+
+.barra-usuario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.usuario-logado {
+  font-size: 0.85rem;
+  color: var(--cor-texto);
+}
+
+.botao-sair {
+  display: inline-block;
+  background-color: var(--cor-escura);
+  color: var(--cor-fundo);
+  font-family: var(--fonte-base);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1.5px solid var(--cor-escura);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.botao-sair:hover {
+  background-color: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+}
+
+.link-auth {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.link-auth a {
+  color: var(--cor-destaque);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link-auth a:hover {
+  text-decoration: underline;
 }

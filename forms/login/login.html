@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./../../logo-livraria.png" type="image/png" />
+  <link rel="stylesheet" href="./../../style.css" />
+  <title>Login - Livraria</title>
+</head>
+
+<body>
+  <header class="cabecalho">
+    <h1>Livraria</h1>
+    <img src="./../../logo-livraria.png" alt="Logo da livraria" />
+  </header>
+
+  <main class="conteudo">
+    <section class="secao-formulario">
+      <h2 class="titulo-formulario titulo-login">Entrar no Sistema</h2>
+
+      <form class="formulario" id="form-login" method="POST">
+        <input type="hidden" name="acao" value="login" />
+
+        <label for="email"><em>E-mail:</em></label>
+        <input type="email" name="email" id="email" placeholder="exemplo@email.com" required />
+
+        <label for="senha"><em>Senha:</em></label>
+        <input type="password" name="senha" id="senha" placeholder="Digite sua senha" required />
+
+        <input type="submit" value="Entrar" class="botao-enviar" />
+      </form>
+
+      <p class="link-auth">
+        Não tem uma conta? <a href="./cadastro.html">Cadastre-se</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>© 2026 - Projeto Livraria</strong></p>
+  </footer>
+
+  <script src="./login.js"></script>
+</body>
+
+</html>
